@@ -1,0 +1,78 @@
+import pandas as pd
+
+import matplotlib.pyplot as plt
+
+import numpy as np
+
+a=open(r'C:\Users\Administrator\Desktop\data_mer.csv',encoding='utf-8')
+
+data_mer=pd.read_csv(a)
+
+data_Dept=data_mer ['Dept']. value_counts()
+
+print(data_Dept, data_Dept.shape) ##查看Dept的种类数目
+
+data_mer['Date']=pd.to_datetime(data_mer['Date'])
+
+data_mer ['year']=[i.year for i in data_mer['Date']]#提取年份
+
+data_mer['month']=[i.month for i in data_mer['Date']]#提取月份
+
+data_mer['weekday']=data_mer['Date']. apply(lambda x: x. weekday()+1)#提取星期
+
+data_mer['day']=[i.day for i in data_mer['Date']]##提取天
+
+data_mer['hour']=data_mer['Date'].dt.hour #提取时
+
+data_1s=data_mer.loc [data_mer['Dept']=='第一食堂']
+
+#print(data_1s)
+
+data_Dept=data_mer ['Dept']. value_counts()
+
+
+# 绘制饼图 早餐
+data_morning = data_mer[(data2['hour'].apply(lambda x: x in [ 7, 8])),  :]
+morning_ps = data_morning.drop_duplicates(subset=['CardNo', 'day','Dept','hour'])
+data_morning_Dept = morning_ps['Index'].groupby(morning_ps['Dept']).count() 
+# print(data_morning_Dept)
+import matplotlib.pyplot as plt
+plt.rcParams['font.sans-serif']='SimHei'   # 显示中文
+plt.rcParams['axes.unicode_minus']=False  # 显示负号
+
+fig=plt.figure(figsize=(5,5))
+y = data_morning_Dept
+x = y.index
+plt.pie(y,labels=x,autopct='%.2f %%')
+plt.title('早餐就餐人次占比饼图')
+plt.savefig('task2_X1.png')
+plt.show()
+
+# 午餐消费分布 
+data_lunch = data_mer[(data2['hour'].apply(lambda x: x in [11, 12])),  :]
+lunch_ps = data_lunch.drop_duplicates(subset=['CardNo', 'day','Dept','hour'])
+data_lunch_Dept = lunch_ps['Index'].groupby(lunch_ps['Dept']).count() 
+#print(data_lunch_Dept)
+
+fig=plt.figure(figsize=(5,5))
+y = data_lunch_Dept
+x = y.index
+plt.pie(y,labels=x,autopct='%.2f %%')
+plt.title('午餐就餐人次占比饼图')
+plt.savefig('task2_X2.png')
+plt.show()
+
+# 晚餐消费分布 
+data_dinner =data_mer[(data2['hour'].apply(lambda x: x in [17, 18])),  :]
+dinner_ps = data_dinner.drop_duplicates(subset=['CardNo', 'day','Dept','hour'])
+data_dinner_Dept = dinner_ps['Index'].groupby(dinner_ps['Dept']).count() 
+#print(data_lunch_Dept)
+
+fig=plt.figure(figsize=(5,5))
+y = data_dinner_Dept
+x = y.index
+plt.pie(y,labels=x,autopct='%.2f %%')
+plt.title('晚餐就餐人次占比饼图')
+plt.savefig('task2_X3.png')
+plt.show()
+

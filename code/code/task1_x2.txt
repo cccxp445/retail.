@@ -1,0 +1,8 @@
+﻿##数据合并
+import pandas as pd
+m=open(r'C:/Users/Administrator/Desktop/data1.csv',encoding='gbk')
+n=open(r'C:/Users/Administrator/Desktop/data2.csv',encoding='gbk')
+data1=pd.read_csv(m)
+data2=pd.read_csv(n)
+data_mer = pd.merge(data1, data2, left_on = 'CardNo', right_on = 'CardNo', how = 'inner')
+data_mer.to_csv(' data_mer.csv',index = False)

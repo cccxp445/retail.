@@ -1,0 +1,29 @@
+# 提取 工作日和非工作日 数据
+data_work = data2_normal_1.loc[(data2_normal_1['day'].apply(lambda x: x in [1,2,3,4,8,9,10,11,12,15,16,17,18,19,22,23,24,25,26,28,29,30])),  :]
+data_nowork = data2_normal_1.loc[(data2_normal_1['day'].apply(lambda x: x in [5,6,7,13,14,20,21,27])),  :]
+
+# 工作日 食堂 每小时就餐频次
+data_ps3 = data_work.drop_duplicates(subset=['CardNo', 'day', 'hour'])
+data_tj3 = data_ps3['Index'].groupby(data_ps3['hour']).count() 
+plt.title('工作日 食堂每小时就餐频次')
+plt.xlim(6, 24)
+y = data_tj3/22
+x = y.index
+plt.plot(x, y)
+for x, y in zip(x, y): 
+    plt.text(x, y+0.3, '%.0f' % y, ha='center', va='bottom', fontsize=10.5)
+plt.savefig('task2_X4.png')
+plt.show()
+
+# 非工作日 食堂 每小时就餐频次
+data_ps4 = data_nowork.drop_duplicates(subset=['CardNo', 'day', 'hour'])
+data_tj4 = data_ps4['Index'].groupby(data_ps4['hour']).count() 
+plt.title('非工作日 食堂每小时就餐频次')
+plt.xlim(6, 24)
+y = data_tj4/8
+x = y.index
+plt.plot(x, y)
+for x, y in zip(x, y): 
+    plt.text(x, y+0.3, '%.0f' % y, ha='center', va='bottom', fontsize=10.5)
+plt.savefig('task2_X5.png')
+plt.show()
